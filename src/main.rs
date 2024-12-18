@@ -1,6 +1,8 @@
 use shlex::Shlex;
 use std::env;
+use std::fs;
 use std::fs::OpenOptions;
+use std::path::Path;
 use std::io::{self, Write};
 use std::process::{Command, exit};
 use termion::event::Key;
@@ -12,6 +14,76 @@ fn is_builtin(command: &str) -> bool {
         command,
         "echo" | "exit" | "help" | "type" | "pwd" | "cd" | "history"
     )
+}
+
+fn get_completion_candidates(input: &str) -> Vec<String> {
+    let mut candidates = Vec::new();
+
+    if input.is_empty() {
+        return candidates;
+    }
+
+    let (search_dir, prefix) = if input.contains('/') {
+        let last_slash = input.rfind('/').unwrap();
+        (&input[..=last_slash], &input[last_slash + 1..])
+    } else {
+        (".", input)
+    };
+
+    if let Ok(entries) = fs::read_dir(search_dir) {
+        for entry in entries {
+            if let Ok(entry) = entry {
+                let file_name = entry.file_name();
+                let file_name_str = file_name.to_str().unwrap_or("");
+                
+                if file_name_str.starts_with(prefix) {
+                    let full_path = entry.path();
+                    let candidate = if full_path.is_dir() {
+                        format!("{}/", file_name_str)
+                    } else {
+                        file_name_str.to_string()
+                    };
+                    candidates.push(candidate);
+                }
+            }
+        }
+    }
+
+    if candidates.is_empty() && search_dir == "." {
+        if let Ok(paths) = env::var("PATH") {
+            for path in paths.split(':') {
+                if let Ok(dir_entries) = fs::read_dir(path) {
+                    for entry in dir_entries {
+                        if let Ok(entry) = entry {
+                            let file_name = entry.file_name();
+                            let file_name_str = file_name.to_str().unwrap_or("");
+                            
+                            if file_name_str.starts_with(prefix) && is_executable(&entry.path()) {
+                                candidates.push(file_name_str.to_string());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    candidates.sort();
+    candidates
+}
+
+fn is_executable(path: &Path) -> bool {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        path.is_file() && path.metadata()
+            .map(|m| m.permissions().mode() & 0o111 != 0)
+            .unwrap_or(false)
+    }
+    #[cfg(not(unix))]
+    {
+        false
+    }
 }
 
 fn find_in_path(command: &str) -> Option<String> {
@@ -30,21 +102,6 @@ fn reset_terminal(stdout: RawTerminal<io::Stdout>) {
     drop(stdout); 
 }
 
-// plan: tab completion: look thru /bin, /usr/bin, etc and find best match, if the user has typed nothing then do \t and not tab completion
-// * Broken
-#[allow(dead_code)]
-fn tab_completion(input: &str) -> Option<String> {
-    let mut paths = std::env::var("PATH").unwrap_or_default();
-    paths.push_str(":/bin:/usr/bin");
-    for path in paths.split(':') {
-        let full_path = format!("{}/{}", path, input);
-        if std::fs::metadata(&full_path).is_ok() {
-            return Some(full_path);
-        }
-    }
-
-    None
-}
 
 fn main() {
     let stdout = io::stdout().into_raw_mode().unwrap();
@@ -65,37 +122,68 @@ fn main() {
         .open(&history_path)
         .unwrap();
 
-    loop {
-        write!(stdout, "\r$ ").unwrap();
-        stdout.flush().unwrap();
-
-        let mut input_string = String::new();
-        let stdin = io::stdin();
-        for key in stdin.keys() {
-            match key.unwrap() {
-                Key::Char('\t') => {
-                    // TODO: add tab completion
-                    
+        let mut current_completion_candidates: Vec<String> = Vec::new();
+        let mut current_completion_index = 0;
+    
+        loop {
+            write!(stdout, "\r$ ").unwrap();
+            stdout.flush().unwrap();
+    
+            let mut input_string = String::new();
+            let stdin = io::stdin();
+            for key in stdin.keys() {
+                match key.unwrap() {
+                    Key::Char('\t') => {
+                        if current_completion_candidates.is_empty() {
+                            current_completion_candidates = get_completion_candidates(&input_string);
+                            current_completion_index = 0;
+                        }
+    
+                        if !current_completion_candidates.is_empty() {
+                            write!(stdout, "\r$ {}", " ".repeat(input_string.len())).unwrap();
+                            write!(stdout, "\r$ ").unwrap();
+    
+                            input_string = current_completion_candidates[current_completion_index].clone();
+                            write!(stdout, "{}", input_string).unwrap();
+                            
+                            current_completion_index = 
+                                (current_completion_index + 1) % current_completion_candidates.len();
+                        }
+                        
+                        stdout.flush().unwrap();
+                    }
+                    Key::Char('\n') => {
+                        current_completion_candidates.clear();
+                        current_completion_index = 0;
+    
+                        write!(stdout, "\n").unwrap();
+                        stdout.flush().unwrap();
+                        break;
+                    }
+                    Key::Backspace => {
+                        if !input_string.is_empty() {
+                            input_string.pop();
+                            write!(stdout, "\x08 \x08").unwrap();
+                            stdout.flush().unwrap();
+                        }
+                    }
+                    Key::Char(c) => {
+                        current_completion_candidates.clear();
+                        current_completion_index = 0;
+    
+                        input_string.push(c);
+                        write!(stdout, "{}", c).unwrap();
+                        stdout.flush().unwrap();
+                    }
+                    Key::Ctrl('c') => {
+                        write!(stdout, "\nExiting...\n").unwrap();
+                        reset_terminal(raw_stdout);
+                        exit(0);
+                    }
+                    _ => {}
                 }
-                Key::Char('\n') => {
-                    write!(stdout, "\n").unwrap();
-                    stdout.flush().unwrap();
-                    break;
-                }
-                Key::Char(c) => {
-                    input_string.push(c);
-                    write!(stdout, "{}", c).unwrap();
-                    stdout.flush().unwrap();
-                }
-                Key::Ctrl('c') => {
-                    write!(stdout, "\nExiting...\n").unwrap();
-                    reset_terminal(raw_stdout);
-                    exit(0);
-                }
-                _ => {}
             }
-        }
-
+            
         let input = input_string.trim();
         if input.is_empty() {
             continue;

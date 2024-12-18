@@ -1,8 +1,9 @@
 [package]
-name = "shell"
+name = "supa-shell"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.80"
+default-run = "supa"
 
 [dependencies]
 anyhow = "1.0.68"                         
@@ -11,4 +12,8 @@ crossterm = "0.28.1"
 home = "0.5.9"
 shlex = "1.3.0"
 termion = "4.0.3"
-thiserror = "1.0.38"                         
+thiserror = "1.0.38"                        
+
+[[bin]]
+name = "supa"
+path = "src/main.rs"
