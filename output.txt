@@ -1,0 +1,235 @@
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+[H[2J[3JCargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+output.txt
+README.md
+src
+target
+                  -`
+                 .o+`
+                `ooo/
+               `+oooo:
+              `+oooooo:
+              -+oooooo+:
+            `/:-:++oooo+:
+           `/++++/+++++++:
+          `/++++++++++++++:
+         `/+++ooooooooooooo/`
+        ./ooosssso++osssssso+`
+       .oossssso-````/ossssss+`
+      -osssssso.      :ssssssso.
+     :osssssss/        osssso+++.
+    /ossssssss/        +ssssooo/-
+  `/ossssso+/:-        -:/+osssso+-
+ `+sso+:-`                 `.-/+oso:
+`++:.                           `-/+/
+.`                                 `/[1G[18A[41Cbalma@balma
+[41C-----------
+[41COS: Arch Linux x86_64
+[41CHost: HP ENVY Laptop 15t-ep000
+[41CKernel: Linux 6.12.4-arch1-1
+[41CUptime: 3 hours, 59 mins
+[41CPackages: 1379 (pacman), 8 (flatpak-system), 8 (flatpak-user)
+[41CShell: supa
+[41CDisplay (BOE080D): 1920x1080 @ 60 Hz in 16" [Built-in]
+[41CDE: GNOME 47.2
+[41CWM: Mutter (X11)
+[41CWM Theme: Adwaita
+[41CTheme: Adwaita [GTK2/3/4]
+[41CIcons: breeze-dark [GTK2/3/4]
+[41CFont: Noto Sans (10pt) [GTK2/3/4]
+[41CCursor: breeze (24px)
+[41CTerminal: cursor
+[41CCPU: Intel(R) Core(TM) i7-10750H (12) @ 5.00 GHz
+[41CGPU 1: NVIDIA GeForce GTX 1650 Ti Mobile [Discrete]
+[41CGPU 2: Intel UHD Graphics @ 1.15 GHz [Integrated]
+[41CMemory: 5.21 GiB / 15.39 GiB (34%)
+[41CSwap: Disabled
+[41CDisk (/): 63.82 GiB / 336.97 GiB (19%) - ext4
+[41CLocal IP (wlo1): 192.168.1.114/24
+[41CBattery (Primary): 83% [Discharging]
+[41CLocale: C.UTF-8
+[41C
+[41C[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[41C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
+Cargo.lock
+Cargo.toml
+LICENSE
+README.md
+output.txt
+src
+target
